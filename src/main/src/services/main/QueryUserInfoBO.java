@@ -1,16 +1,13 @@
 package main.src.services.main;
 
 import main.src.bean.RecordBean;
-import main.src.command.impl.MainPanelImpl;
-import main.src.command.interface_command.BasicCommand;
-import main.src.command.interface_command.OperatinalPanelCommand;
 import main.src.common.Semaphore;
 import main.src.utils.main.db.DatabaseQueryTool;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class QueryUserInfoBO implements OperatinalPanelCommand,BasicCommand {
+public class QueryUserInfoBO{
 	private ArrayList<Object> userList = new ArrayList<>();
 	public QueryUserInfoBO(){
 		userList.add(new RecordBean(Semaphore.getCurrentUser()));
@@ -30,22 +27,6 @@ public class QueryUserInfoBO implements OperatinalPanelCommand,BasicCommand {
 		}catch (Exception e){
 			e.printStackTrace();
 		}
-		backToMain();
 	}
 
-	@Override
-	public void backToMain() {
-		new MainPanelImpl().getCommand();
-	}
-
-	@Override
-	public void rebroadcast() {
-
-	}
-
-
-	@Override
-	public void help() {
-
-	}
 }

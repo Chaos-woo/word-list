@@ -4,9 +4,13 @@ import java.io.*;
 
 public class Semaphore {
 	private static String audioPath;
+	//control QueryChineseByBing method to query chinese or pause
 	private static boolean searchByInternetFlag = false;
 	private static String currentUser;
+	//control QueryChineseByBing method to run or not
 	private static boolean running = true;
+	//is or not read words model?
+	// if it is and database don't update "selected_count" and "correct_count" properties
 	private static boolean readWordModel = false;
 
 	static {
@@ -33,14 +37,17 @@ public class Semaphore {
 		return audioPath;
 	}
 
-	public static void setAudioPath(String audioPath) {
+	public static boolean setAudioPath(String audioPath) {
+		boolean flag = false;
 		Semaphore.audioPath = audioPath;
 		try(PrintWriter pw = new PrintWriter
 				(new FileOutputStream("H:/JavaPro/wordlist/src/main/resource/property/audio_path.txt"),true)){
 			pw.print(audioPath);
+			flag = true;
 		}catch (Exception e){
 			e.printStackTrace();
 		}
+		return flag;
 	}
 
 	public static String getCurrentUser() {

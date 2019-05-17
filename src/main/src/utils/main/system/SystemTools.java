@@ -51,7 +51,7 @@ public class SystemTools {
 	public static ArrayList<Integer> randomNumberList(int count, int max){
 		ArrayList<Integer> numList = new ArrayList<>();
 		for(int i=0;i<count;){
-			int randomNum = (int)(Math.random()*max);
+			int randomNum = (int)(Math.random()*max)+1;
 			if(!numList.contains(randomNum)){
 				numList.add(randomNum);
 				i++;

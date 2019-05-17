@@ -16,4 +16,5 @@ public class ConstantString {
 	public static final String NOTICE_BEFORE = "Notice!!!!!!!";
 	public static final String NOTICE = "use \'\\main\' to quit or else lose info";
 	public static final String TITLE = "Welcome to word-list";
+	public static final String NOTICE2 = "input \'enter\' to next word";
 }

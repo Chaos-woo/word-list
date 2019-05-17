@@ -1,6 +1,7 @@
 package main.src.db.main;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -11,14 +12,11 @@ public class DatabaseOperateDAO {
 		ResultSet rs = null;
 		c = DatabaseConnectSingleton.getConnectionInstance();
 		try {
-			Statement stmt = null;
+			PreparedStatement ps = c.prepareStatement(sql);
 			try {
-				stmt = c.createStatement();
-				rs = stmt.executeQuery(sql);
+				rs = ps.executeQuery();
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				stmt.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

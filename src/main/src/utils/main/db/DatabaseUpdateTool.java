@@ -7,31 +7,47 @@ import main.src.db.main.DatabaseOperateDAO;
 import java.util.ArrayList;
 
 public class DatabaseUpdateTool {
-	public static void update(ArrayList<WordBean> list){
+	public static boolean update(ArrayList<WordBean> list){
+		boolean flag = false;
 		StringBuilder sql = new StringBuilder("UPDATE wordlist ");
-		StringBuilder setPart1 = new StringBuilder("SET chinese = CASE english ");
-		StringBuilder setPart2 = new StringBuilder("SET pronunciation = CASE english ");
-		StringBuilder setPart3 = new StringBuilder("SET sound = CASE english ");
-		StringBuilder setPart4 = new StringBuilder("SET selected_count = CASE english ");
-		StringBuilder setPart5 = new StringBuilder("SET correct_count = CASE english ");
-		StringBuilder endPart = new StringBuilder("WHERE english IN (");
+		StringBuilder setPart1 = new StringBuilder("SET chinese = CASE id ");
+//		StringBuilder setPart2 = new StringBuilder("SET pronunciation = CASE id ");
+		StringBuilder setPart3 = new StringBuilder("SET sound = CASE id ");
+		StringBuilder setPart4 = new StringBuilder("SET selected_count = CASE id ");
+		StringBuilder setPart5 = new StringBuilder("SET correct_count = CASE id ");
+		StringBuilder endPart = new StringBuilder("WHERE id IN(");
+
+
 		list.forEach(i->{
-			String key = i.getEnglish();
+			int key = i.getId();
 			setPart1.append("WHEN "+ key +" THEN \'"+i.getChinese()+"\' ");
-			setPart2.append("WHEN "+ key +" THEN \'"+i.getPronunciation()+"\' ");
+//			setPart2.append("WHEN "+ key +" THEN \'"+p+"\' ");
 			setPart3.append("WHEN "+ key +" THEN \'"+i.getSound()+"\' ");
-			if(!Semaphore.isReadWordModel()){
-				setPart4.append("WHEN "+ key +" THEN \'"+i.getSelectedCount()+"\' ");
-				setPart5.append("WHEN "+ key +" THEN \'"+i.getCorrectCount()+"\' ");
-			}
+			setPart4.append("WHEN "+ key +" THEN "+i.getSelectedCount()+" ");
+			setPart5.append("WHEN "+ key +" THEN "+i.getCorrectCount()+" ");
 			endPart.append(key+",");
 		});
-		String end = endPart.subSequence(0,endPart.length()-1).toString();
-		sql.append(setPart1).append(setPart2).append(setPart3);
-		if(!Semaphore.isReadWordModel()){
-			sql.append(setPart4).append(setPart5);
+		StringBuilder end;
+		end = new StringBuilder(endPart.substring(0,endPart.length()-1));
+		end.append(");");
+
+		String e = "END ";
+		String part1 = sql+setPart1.toString()+e+end;
+//		String part2 = sql+setPart2.toString()+e+end;
+		String part3 = sql+setPart3.toString()+e+end;
+		int i = DatabaseOperateDAO.updateAndInsert(part1);
+//		DatabaseOperateDAO.updateAndInsert(part2);
+		DatabaseOperateDAO.updateAndInsert(part3);
+
+		String part4 = sql+setPart4.toString()+e+end;
+		String part5 = sql+setPart5.toString()+e+end;
+		DatabaseOperateDAO.updateAndInsert(part4);
+		DatabaseOperateDAO.updateAndInsert(part5);
+
+		System.out.println(i+" rows had effected.");
+		if(i>0){
+			flag = true;
 		}
-		sql.append(end).append(");");
-		System.out.println(DatabaseOperateDAO.updateAndInsert(sql.toString())+"rows had effected.");
+		return flag;
 	}
 }

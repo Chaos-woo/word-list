@@ -22,40 +22,38 @@ public class UserRegisterAndLoginBO implements UserCommand {
 	}
 
 	@Override
-	public void registerUser() {
+	public boolean registerUser() {
 		ArrayList<Object> userList = new ArrayList<>();
 		userList.add(new UserBean(name,pw));
-		DatabaseInsertTool.insert(userList);
+		boolean flag = DatabaseInsertTool.insert(userList);
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		SystemTools.clear();
-		new InitUser().getCommand();
+		return flag;
 	}
 
 	@Override
-	public void loginUser(){
+	public boolean loginUser(){
+		boolean flag = false;
 		ArrayList<Object> userList = new ArrayList<>();
 		userList.add(new UserBean(name));
 		ResultSet rs = DatabaseQueryTool.query(userList);
 		try{
 			assert rs != null;
 			while (rs.next()){
+				rs.getString("password");
 				if(pw.equals(rs.getString("password"))){
 					//to main panel
-					SystemTools.printWelcomePanel(ConstantString.TITLE,new String[]{ConstantString.HELP});
-					Semaphore.setCurrentUser(name);
+					flag = true;
 					break;
-				}else {
-					new InitUser().getCommand();
-					System.out.println("user name or password is error.");
 				}
 			}
-			new MainPanelImpl().getCommand();
+			rs.close();
 		}catch (Exception e){
 			e.printStackTrace();
 		}
+		return flag;
 	}
 }

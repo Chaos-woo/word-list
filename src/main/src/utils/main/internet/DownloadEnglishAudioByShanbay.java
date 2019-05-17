@@ -29,7 +29,6 @@ public class DownloadEnglishAudioByShanbay implements Runnable {
 				int b;
 				while ((b = is.read(bt)) > 0) {
 					fos.write(bt, 0, b);
-					System.out.print(b);
 				}
 				fos.flush();
 				fos.close();

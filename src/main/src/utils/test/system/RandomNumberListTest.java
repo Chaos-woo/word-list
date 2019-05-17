@@ -8,7 +8,7 @@ import java.util.ArrayList;
 class RandomNumberListTest {
 	@Test
 	void randomNumberListTest(){
-		ArrayList<Integer> list = SystemTools.randomNumberList(10,100);
+		ArrayList<Integer> list = SystemTools.randomNumberList(5,7);
 		list.forEach(n-> System.out.print(n+","));
 	}
 }

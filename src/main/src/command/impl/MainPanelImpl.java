@@ -4,12 +4,14 @@ import main.src.command.interface_command.BasicCommand;
 import main.src.command.interface_command.GetCommand;
 import main.src.command.interface_command.MainPanelCommand;
 import main.src.common.ConstantString;
+import main.src.common.Container;
 import main.src.common.ExecutePoolServ;
 import main.src.common.Semaphore;
 import main.src.services.main.ExplainWordsModel;
 import main.src.services.main.InsertWordsBO;
 import main.src.services.main.QueryUserInfoBO;
-import main.src.utils.main.internet.QurryChineseByBing;
+import main.src.services.main.RepeatWordBO;
+import main.src.utils.main.internet.QueryChineseByBing;
 import main.src.utils.main.system.SystemTools;
 
 import java.util.Scanner;
@@ -22,31 +24,36 @@ public class MainPanelImpl implements MainPanelCommand,BasicCommand,GetCommand {
 
 	@Override
 	public void insertWord() {
-		clearConsole();
-		new InsertWordsBO().insertWord();
+		new InsertWordsBO().getCommand();
 	}
 
 	@Override
 	public void repeatWord(int n) {
-		clearConsole();
+		Container.clearWordList();
+		Container.clearCatch();
+		ExecutePoolServ.getExecutorService().execute(new QueryChineseByBing(n));
+		new RepeatWordBO().getCommand();
 	}
 
 	@Override
 	public void getUserInfo() {
-		clearConsole();
+		System.out.println();
 		new QueryUserInfoBO().queryInfo();
 	}
 
 	@Override
 	public void setAudioStorePath(String path) {
-		Semaphore.setAudioPath(path);
+		if(Semaphore.setAudioPath(path)){
+			System.out.println("Audio path has been set successful.");
+		}
 	}
 
 	@Override
 	public void executeEnToZhModel(int n) {
-		clearConsole();
-		ExecutePoolServ.getExecutorService().execute(new ExplainWordsModel(n));
-		ExecutePoolServ.getExecutorService().execute(new QurryChineseByBing());
+		Container.clearWordList();
+		Container.clearCatch();
+		ExecutePoolServ.getExecutorService().execute(new QueryChineseByBing(n));
+		new ExplainWordsModel().getCommand();
 	}
 
 	@Override
@@ -62,13 +69,13 @@ public class MainPanelImpl implements MainPanelCommand,BasicCommand,GetCommand {
 
 	@Override
 	public void getCommand(){
+		Scanner in = new Scanner(System.in);
 		while(true){
-			Scanner in = new Scanner(System.in);
 			String[] cmds = in.nextLine().split(" ");
 			String cmd = cmds[0];
 			if(cmds.length==1){
 				if("\\q".equals(cmd)){
-					quitSystem();
+					break;
 				}else if("\\c".equals(cmd)){
 					clearConsole();
 				}else if("\\i".equals(cmd)){

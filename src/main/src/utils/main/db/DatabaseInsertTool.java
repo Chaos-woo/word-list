@@ -12,12 +12,12 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class DatabaseInsertTool {
-	public static void insert(ArrayList<Object> list){
+	public static boolean insert(ArrayList<Object> list){
 		StringBuilder sql = new StringBuilder("INSERT INTO ");
 		//通过反射获取表名
 		Class c = list.get(0).getClass();
 		if(!c.isAnnotationPresent(Table.class)){
-			return;
+			return false;
 		}
 		Table table = (Table)c.getAnnotation(Table.class);
 		String tableName = table.value();
@@ -30,8 +30,9 @@ public class DatabaseInsertTool {
 		}else if("record".equals(tableName)){
 			sql.append(makeUpTableFields(c)).append(insertRecord(list));
 		}
-		System.out.println(sql);
-		System.out.println(DatabaseOperateDAO.updateAndInsert(sql.toString())+" rows had effected");
+		int i = DatabaseOperateDAO.updateAndInsert(sql.toString());
+		System.out.println(i+" rows had effected");
+		return true;
 	}
 
 	private static String insertWord(ArrayList<Object> list){
