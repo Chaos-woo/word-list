@@ -6,4 +6,5 @@ public interface MainPanelCommand {
 	void getUserInfo();
 	void setAudioStorePath(String path);
 	void executeEnToZhModel(int n);
+	void bulkInsertWord();
 }

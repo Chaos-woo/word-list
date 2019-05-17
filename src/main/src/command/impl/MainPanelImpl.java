@@ -7,10 +7,7 @@ import main.src.common.ConstantString;
 import main.src.common.Container;
 import main.src.common.ExecutePoolServ;
 import main.src.common.Semaphore;
-import main.src.services.main.ExplainWordsModel;
-import main.src.services.main.InsertWordsBO;
-import main.src.services.main.QueryUserInfoBO;
-import main.src.services.main.RepeatWordBO;
+import main.src.services.main.*;
 import main.src.utils.main.internet.QueryChineseByBing;
 import main.src.utils.main.system.SystemTools;
 
@@ -57,6 +54,11 @@ public class MainPanelImpl implements MainPanelCommand,BasicCommand,GetCommand {
 	}
 
 	@Override
+	public void bulkInsertWord() {
+		new BulkInsertBO().bulkInsert();
+	}
+
+	@Override
 	public void help() {
 		SystemTools.printWelcomePanel(ConstantString.TITLE,new String[]{
 				ConstantString.E2C,ConstantString.MEMORY,
@@ -84,7 +86,9 @@ public class MainPanelImpl implements MainPanelCommand,BasicCommand,GetCommand {
 					help();
 				}else if("\\info".equals(cmd)){
 					getUserInfo();
-				}else {
+				}else if("\\im".equals(cmd)){
+					bulkInsertWord();
+				} else {
 					//don't do anything
 				}
 			}else {
