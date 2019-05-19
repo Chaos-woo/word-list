@@ -1,10 +1,15 @@
-Current version: v0.3
+Current version: v0.4
+
+2019/5/19 -v0.4
+1.fix bug that it can't use same model twice
+2.optimize user experience about reading and explaining English words
+3.this version is tended to be stable and I will not modify in a long time 
 
 2019/5/19 -v0.3
-1.fix it can not query phrase by Internet bug
-2.fix it can not download phrase audio by Internet bug
+1.fix bug that it can not query phrase by Internet
+2.fix bug that it can not download phrase audio by Internet
 3.replace audio's downloading URL to "http://dict.youdao.com/dictvoice?audio=%s"
-4.fix "English to Chinese model" some bug
+4.fix some logical bug about "English to Chinese model"
 5.add "update overview.txt"
 6.add my word list to "wordlist\src\main\resource\words\"
 7.add creating table statement in resource\db\table.txt
@@ -12,11 +17,11 @@ Current version: v0.3
 9.now word system can't use same model twice(maybe that it is semaphore setting problem), next version maybe it fixed
 
 2019/5/17 -v0.2
-1.fix controller's UI circulating bug
+1.fix bug that controller's UI always circulating
 2.fix logical loop bug in main panel
 3.replace database(sqlite) to MySQL
 
 2019/5/16 -v0.1
 1.save first version code
-2.this version can not run(please don't run it in your IDE)
+2.Important! This version can not run(please don't run it in your IDE)
   

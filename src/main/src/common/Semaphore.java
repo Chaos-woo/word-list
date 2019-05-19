@@ -73,4 +73,5 @@ public class Semaphore {
 	public static void setReadWordModel(boolean readWordModel) {
 		Semaphore.readWordModel = readWordModel;
 	}
+
 }

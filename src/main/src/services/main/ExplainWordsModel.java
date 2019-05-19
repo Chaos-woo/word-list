@@ -18,10 +18,8 @@ import java.util.regex.Pattern;
 
 public class ExplainWordsModel implements BasicCommand ,GetCommand,OperationalPanelCommand {
 	private WordBean w;
-	private static boolean flag = true;
+	private boolean flag = true;
 	public ExplainWordsModel(){
-		Semaphore.setRunning(true);
-		Semaphore.setSearchByInternetFlag(true);
 		help();
 		System.out.println();
 	}
@@ -39,6 +37,14 @@ public class ExplainWordsModel implements BasicCommand ,GetCommand,OperationalPa
 	@Override
 	public void getCommand() {
 		Scanner in = new Scanner(System.in);
+		System.out.println("Now you can prepare for it 5 seconds...");
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		getWordFromCatchList();
+		System.out.println();
 		while (flag) {
 			String[] cmds = in.nextLine().split(" ");
 			Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
@@ -49,28 +55,35 @@ public class ExplainWordsModel implements BasicCommand ,GetCommand,OperationalPa
 				}
 				getWordFromCatchList();
 				w.setCorrectCount(w.getCorrectCount() + 1);
-			}
-			if (cmds[0].trim().length()==0) {
-				getWordFromCatchList();
-			} else if (cmds.length == 1) {
-				if ("\\main".equals(cmds[0])) {
-					backToMain();
-				} else if ("\\help".equals(cmds[0])) {
-					help();
-				} else if ("\\c".equals(cmds[0])) {
-					clearConsole();
-				} else if ("\\q".equals(cmds[0])) {
-					quitSystem();
+			}else {
+				if (cmds[0].trim().length()==0) {
+					System.out.println(w.getChinese());
+					getWordFromCatchList();
+				} else if (cmds.length == 1) {
+					if ("\\main".equals(cmds[0])) {
+						backToMain();
+					} else if ("\\help".equals(cmds[0])) {
+						help();
+					} else if ("\\c".equals(cmds[0])) {
+						clearConsole();
+					} else if ("\\q".equals(cmds[0])) {
+						quitSystem();
+					}
+				} else if (cmds.length == 2) {
+					if ("\\rc".equals(cmds[0])) {
+						rebroadcast(Integer.parseInt(cmds[1].substring(1)));
+					}
 				}
-			} else if (cmds.length == 2) {
-				if ("\\rc".equals(cmds[0])) {
-					rebroadcast(Integer.parseInt(cmds[1].substring(1)));
-				}
 			}
+
 			System.out.println();
 		}
 	}
 
+	/**
+	 * word catch is a array list, when its size>0 process get a word
+	 * ReadWordModel is a semaphore, witch was used judging is or not show word's chinese
+	 */
 	protected void getWordFromCatchList() {
 		if (Container.wordCatch.size()>0){
 			Semaphore.setSearchByInternetFlag(false);
@@ -84,6 +97,10 @@ public class ExplainWordsModel implements BasicCommand ,GetCommand,OperationalPa
 			ExecutePoolServ.getExecutorService().execute(new PlayAudio(w.getEnglish()));
 			Semaphore.setSearchByInternetFlag(true);
 		}
+		if(Container.wordCatch.size()<=0){
+			System.out.println();
+			System.out.println("This is ending. Please use \\'\\main\' to save and back main panel.");
+		}
 	}
 
 	@Override
@@ -93,10 +110,16 @@ public class ExplainWordsModel implements BasicCommand ,GetCommand,OperationalPa
 			//do not do anything
 		}else if(!DatabaseUpdateTool.update(Container.newWordList)){
 			System.out.println("Saving word is failed. Please save again.");
-
 		}
 	}
 
+	/**
+	 * when user want to listen to word pronunciation,
+	 * it can rebroadcast "n" counts
+	 * but its default counts is 3, not be much than.
+	 *
+	 * @param n rebroadcast counts
+	 */
 	@Override
 	public void rebroadcast(int n) {
 		int defaultValue = 3;

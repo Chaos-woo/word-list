@@ -5,15 +5,22 @@ import main.src.common.Semaphore;
 import java.util.Scanner;
 
 public class RepeatWordBO extends ExplainWordsModel {
-	private static boolean flag = true;
+	private boolean flag = true;
 	public RepeatWordBO(){
 		super();
 	}
 
 	@Override
 	public void getCommand() {
-		Semaphore.setReadWordModel(true);
 		Scanner in = new Scanner(System.in);
+		System.out.println("Now you can prepare for it 5 seconds...");
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		getWordFromCatchList();
+		System.out.println();
 		while (flag) {
 			String[] cmds = in.nextLine().split(" ");
 			if (cmds[0].trim().length()==0) {
@@ -44,7 +51,6 @@ public class RepeatWordBO extends ExplainWordsModel {
 
 	@Override
 	public void backToMain() {
-		Semaphore.setReadWordModel(false);
 		flag = false;
 	}
 }

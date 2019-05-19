@@ -54,7 +54,7 @@ public class QueryChineseByBing implements Runnable {
 			while (Container.wordCatch.size()<20 && Semaphore.isSearchByInternetFlag()
 					&& Container.oldWordList.size()>0){
 				word = (WordBean) Container.oldWordList.remove(0);
-				if(word.getChinese()!=null && word.getSound()!=null){
+				if((word.getChinese()!=null) && (word.getSound()!=null)){
 					getHttpContext(word.getEnglish());
 					downloadPronunciation();
 					Container.wordCatch.add(word);

@@ -28,7 +28,11 @@ public class MainPanelImpl implements MainPanelCommand,BasicCommand,GetCommand {
 	public void repeatWord(int n) {
 		Container.clearWordList();
 		Container.clearCatch();
-		ExecutePoolServ.getExecutorService().execute(new QueryChineseByBing(n));
+		Semaphore.setReadWordModel(true);
+		Semaphore.setRunning(true);
+		Semaphore.setSearchByInternetFlag(true);
+		QueryChineseByBing qcb = new QueryChineseByBing(n);
+		ExecutePoolServ.getExecutorService().execute(qcb);
 		RepeatWordBO repeatWordBO = new RepeatWordBO();
 		repeatWordBO.getCommand();
 	}
@@ -51,7 +55,11 @@ public class MainPanelImpl implements MainPanelCommand,BasicCommand,GetCommand {
 	public void executeEnToZhModel(int n) {
 		Container.clearWordList();
 		Container.clearCatch();
-		ExecutePoolServ.getExecutorService().execute(new QueryChineseByBing(n));
+		Semaphore.setReadWordModel(false);
+		Semaphore.setRunning(true);
+		Semaphore.setSearchByInternetFlag(true);
+		QueryChineseByBing qcb = new QueryChineseByBing(n);
+		ExecutePoolServ.getExecutorService().execute(qcb);
 		ExplainWordsModel explainWordsModel = new ExplainWordsModel();
 		explainWordsModel.getCommand();
 	}
