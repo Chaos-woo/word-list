@@ -9,6 +9,7 @@ public class ConstantString {
 	public static final String E2C = "\'\\e2c -n\' to en2zhModel";
 	public static final String MEMORY = "\'\\m -n\' to read word list";
 	public static final String INSERT = "\'\\i\' to insert new word";
+	public static final String BULK_INSERT = "\'\\im\' to insert mass word";
 	public static final String MAIN = "\'\\main\' back to main panel";
 	public static final String INFO = "\'\\info\' to get test information";
 	public static final String RECALL = "\'\\rc -n\' to repeat word";

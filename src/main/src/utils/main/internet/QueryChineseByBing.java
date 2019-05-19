@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 public class QueryChineseByBing implements Runnable {
 	private WordBean word;
 	private StringBuilder sb;
+	private static StringBuilder newWord = new StringBuilder();
 	private static final String url = "http://cn.bing.com/dict/search?q=";
 	private static final String regexChinese = "class=\"def\"><span>.*?</";
 	private static final String regexPronunciation = "英\\[.*?，";
@@ -79,7 +80,8 @@ public class QueryChineseByBing implements Runnable {
 	 */
 	private void downloadChinese(){
 		ExecutePoolServ.getExecutorService().execute(
-				new DownloadEnglishAudioByShanbay(word.getEnglish()));
+				new DownloadEnglishAudioByShanbay(newWord.toString()));
+		newWord.delete(0,newWord.length());
 		Pattern pChinese = Pattern.compile(regexChinese);
 
 		Matcher mChinese = pChinese.matcher(sb);
@@ -108,9 +110,18 @@ public class QueryChineseByBing implements Runnable {
 	}
 
 	private void getHttpContext(String w){
+		if(w.contains(" ")){
+			String[] strings = w.split(" ");
+			for(int i=0;i<strings.length-1;i++){
+				newWord.append(strings[i]).append("%20");
+			}
+			newWord.append(strings[strings.length-1]);
+		}else {
+			newWord.append(w);
+		}
 		sb = new StringBuilder();
 		try {
-			InputStream is = new URL(url + w).openStream();
+			InputStream is = new URL(url + newWord).openStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			String s = null;
 			while((s=br.readLine())!=null){

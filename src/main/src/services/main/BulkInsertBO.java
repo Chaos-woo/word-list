@@ -27,6 +27,7 @@ public class BulkInsertBO implements BasicCommand ,OperationalPanelCommand {
 				ConstantString.QUIT,ConstantString.NOTICE_BEFORE,
 				ConstantString.NOTICE
 		});
+		System.out.println();
 	}
 
 	public void bulkInsert(){

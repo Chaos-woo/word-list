@@ -47,11 +47,15 @@ public class InsertWordsBO implements BasicCommand,OperationalPanelCommand,GetCo
 			String s = in.nextLine();
 			if(s.contains("\\")){
 				if("\\main".equals(s)){
-					System.out.println("Please wait ...");
-					if(DatabaseInsertTool.insert(wordList)){
+					if(wordList.size()<=0){
 						backToMain();
 					}else {
-						System.out.println("Saving is failed. Please save again");
+						if(DatabaseInsertTool.insert(wordList)){
+							System.out.println("Please wait ...");
+							backToMain();
+						}else {
+							System.out.println("Saving is failed. Please save again");
+						}
 					}
 				}else if("\\c".equals(s)){
 					clearConsole();

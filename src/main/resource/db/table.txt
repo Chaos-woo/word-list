@@ -1,0 +1,29 @@
+create table wordlist
+(
+  id             int             not null unique auto_increment
+    primary key,
+  english        varchar(20)     not null,
+  chinese        varchar(40)     null,
+  pronunciation varchar(40)     null,
+  sound          varchar(20)     null,
+  selected_count int default '0' not null,
+  correct_count  int default '0' not null
+);
+
+create table record
+(
+  id              int         not null unique auto_increment primary key,
+  start_time      varchar(20) null,
+  end_time        varchar(20) null,
+  test_word_count int         null,
+  user_name       varchar(10) null
+);
+
+create table record
+(
+  id              int         not null unique auto_increment primary key,
+  start_time      varchar(20) null,
+  end_time        varchar(20) null,
+  test_word_count int         null,
+  user_name       varchar(10) null
+);

@@ -89,8 +89,11 @@ public class ExplainWordsModel implements BasicCommand ,GetCommand,OperationalPa
 	@Override
 	public void backToMain() {
 		flag = false;
-		if(!DatabaseUpdateTool.update(Container.newWordList)){
+		if(Container.newWordList.size()<=0){
+			//do not do anything
+		}else if(!DatabaseUpdateTool.update(Container.newWordList)){
 			System.out.println("Saving word is failed. Please save again.");
+
 		}
 	}
 

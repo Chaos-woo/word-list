@@ -8,7 +8,7 @@ import java.net.URL;
 
 public class DownloadEnglishAudioByShanbay implements Runnable {
 	private String word;
-	private static String url = "http://media.shanbay.com/audio/us/";
+	private static String url = "http://dict.youdao.com/dictvoice?audio=";
 
 	public DownloadEnglishAudioByShanbay(String word) {
 		this.word = word;
@@ -23,8 +23,18 @@ public class DownloadEnglishAudioByShanbay implements Runnable {
 	public void run() {
 		if(Semaphore.isRunning()){
 			try {
-				InputStream is = new URL(url + word + ".mp3").openStream();
-				FileOutputStream fos = new FileOutputStream(Semaphore.getAudioPath() + "/" + word + ".mp3");
+				InputStream is = new URL(url + word).openStream();
+				StringBuilder fileName = new StringBuilder();
+				if(word.contains("%20")){
+					String[] strings = word.split("%20");
+					for(int i=0;i<strings.length-1;i++){
+						fileName.append(strings[i]).append(" ");
+					}
+					fileName.append(strings[strings.length-1]);
+				}else {
+					fileName.append(word);
+				}
+				FileOutputStream fos = new FileOutputStream(Semaphore.getAudioPath() + "/" + fileName + ".mp3");
 				byte[] bt = new byte[1024];
 				int b;
 				while ((b = is.read(bt)) > 0) {

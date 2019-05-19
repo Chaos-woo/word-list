@@ -29,13 +29,15 @@ public class MainPanelImpl implements MainPanelCommand,BasicCommand,GetCommand {
 		Container.clearWordList();
 		Container.clearCatch();
 		ExecutePoolServ.getExecutorService().execute(new QueryChineseByBing(n));
-		new RepeatWordBO().getCommand();
+		RepeatWordBO repeatWordBO = new RepeatWordBO();
+		repeatWordBO.getCommand();
 	}
 
 	@Override
 	public void getUserInfo() {
 		System.out.println();
-		new QueryUserInfoBO().queryInfo();
+		QueryUserInfoBO queryUserInfoBO = new QueryUserInfoBO();
+		queryUserInfoBO.queryInfo();
 	}
 
 	@Override
@@ -50,19 +52,22 @@ public class MainPanelImpl implements MainPanelCommand,BasicCommand,GetCommand {
 		Container.clearWordList();
 		Container.clearCatch();
 		ExecutePoolServ.getExecutorService().execute(new QueryChineseByBing(n));
-		new ExplainWordsModel().getCommand();
+		ExplainWordsModel explainWordsModel = new ExplainWordsModel();
+		explainWordsModel.getCommand();
 	}
 
 	@Override
 	public void bulkInsertWord() {
-		new BulkInsertBO().bulkInsert();
+		BulkInsertBO bulkInsertBO = new BulkInsertBO();
+		bulkInsertBO.bulkInsert();
 	}
 
 	@Override
 	public void help() {
 		SystemTools.printWelcomePanel(ConstantString.TITLE,new String[]{
 				ConstantString.E2C,ConstantString.MEMORY,
-				ConstantString.INSERT,ConstantString.INFO,
+				ConstantString.INSERT,ConstantString.BULK_INSERT,
+				ConstantString.INFO,
 				ConstantString.SET_PATH,ConstantString.CLEAR,
 				ConstantString.QUIT,ConstantString.HELP
 		});
