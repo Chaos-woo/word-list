@@ -1,0 +1,77 @@
+﻿1.word_table
+随机选取单词sql:
+select * from wordlist
+	where id in(0,1,...,n);
+	
+更新单词sql：
+update wordlist
+	set updated_field = case key
+		when 1 then 'value'
+		when 2 then 'value'
+		when 3 then 'value'
+	end
+where key in(1,2,3);
+
+update wordlist
+	set other_updated_filed = case key
+		when 1 then 'value'
+		when 2 then 'value'
+		when 3 then 'value'
+	end
+	where key in(1,2,3);
+...
+
+插入单词sql：
+insert into wordlist(field1,field2,...)
+	values(第一组),(第二组)[,(...)];
+----------------------------------------------------	
+2.user_table
+查找用户sql：
+select * from user
+	where name=?;
+
+插入用户sql：
+insert into user(field1,field2)
+	values(name_value,pw_value);
+----------------------------------------------------	
+3.record_table
+查找记录sql：
+select * from record
+	where user_name=?;
+
+插入记录sql：
+insert into record(field1,field2,...)
+	values(...)
+
+---------------------------------------------------
+建表语句：
+create table wordlist
+(
+  id             int             not null unique auto_increment
+    primary key,
+  english        varchar(20)     not null,
+  chinese        varchar(40)     null,
+  pronunciation varchar(40)     null,
+  sound          varchar(20)     null,
+  selected_count int default '0' not null,
+  correct_count  int default '0' not null
+);
+
+----------------------------------------------------
+create table record
+(
+  id              int         not null unique auto_increment primary key,
+  start_time      varchar(20) null,
+  end_time        varchar(20) null,
+  test_word_count int         null,
+  user_name       varchar(10) null
+);
+----------------------------------------------------
+create table user
+(
+  name     varchar(10) not null
+    primary key,
+  password varchar(10) not null
+);
+----------------------------------------------------
+	
