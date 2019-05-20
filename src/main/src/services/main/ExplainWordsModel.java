@@ -127,7 +127,7 @@ public class ExplainWordsModel implements BasicCommand ,GetCommand,OperationalPa
 		for (int i = 0; i < n; i++) {
 			try {
 				ExecutePoolServ.getExecutorService().execute(new PlayAudio(w.getEnglish()));
-				Thread.sleep(1000);
+				Thread.sleep(1500);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

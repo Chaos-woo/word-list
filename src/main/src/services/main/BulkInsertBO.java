@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class BulkInsertBO implements BasicCommand ,OperationalPanelCommand {
 	private ArrayList<Object> list;
-	private static boolean flag = true;
+	private boolean flag = true;
 
 	public BulkInsertBO(){
 		list = new ArrayList<>();
