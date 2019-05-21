@@ -32,7 +32,7 @@ public class DatabaseInsertTool {
 		}
 		int i = DatabaseOperateDAO.updateAndInsert(sql.toString());
 		System.out.println(i+" rows had effected");
-		return true;
+		return i > 0;
 	}
 
 	private static String insertWord(ArrayList<Object> list){

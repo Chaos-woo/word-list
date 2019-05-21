@@ -18,11 +18,13 @@ public class QueryUserInfoBO{
 		try{
 			assert rs != null;
 			System.out.println("id | start_time | end_time | test_word_count");
+			int i = 1;
 			while (rs.next()){
-				System.out.println(rs.getInt("id")+","
-				+ rs.getString("start_time")+ ","
-				+ rs.getString("end_time")+","
+				System.out.println(i+" | "
+				+ rs.getString("start_time")+ " | "
+				+ rs.getString("end_time")+" | "
 				+ rs.getInt("test_word_count"));
+				i++;
 			}
 		}catch (Exception e){
 			e.printStackTrace();
