@@ -36,6 +36,8 @@ public class ExplainWordsModel implements BasicCommand ,GetCommand,OperationalPa
 
 	@Override
 	public void getCommand() {
+		String startTime = InsertRecordBO.getCurrentTime();
+		InsertRecordBO.getRecordInstance().setStartTime(startTime);
 		Scanner in = new Scanner(System.in);
 		System.out.println("Now you can prepare for it 5 seconds...");
 		try {
@@ -107,8 +109,14 @@ public class ExplainWordsModel implements BasicCommand ,GetCommand,OperationalPa
 	public void backToMain() {
 		flag = false;
 		if(Container.newWordList.size()<=0){
-			//do not do anything
-		}else if(!DatabaseUpdateTool.update(Container.newWordList)){
+			//no word in list, if insert to database, it will be error
+		}else if(DatabaseUpdateTool.update(Container.newWordList)){
+			String endTime = InsertRecordBO.getCurrentTime();
+			InsertRecordBO.getRecordInstance().setEndTime(endTime);
+			InsertRecordBO.getRecordInstance().setTestWordCount(Container.newWordList.size());
+			InsertRecordBO.insertRecord();
+		}else {
+			flag = true;
 			System.out.println("Saving word is failed. Please save again.");
 		}
 	}

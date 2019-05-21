@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class InsertWordsBO implements BasicCommand,OperationalPanelCommand,GetCommand {
 	private ArrayList<Object> wordList;
-	private static boolean flag = true;
+	private boolean flag = true;
 
 	public InsertWordsBO(){
 		wordList = new ArrayList<>();

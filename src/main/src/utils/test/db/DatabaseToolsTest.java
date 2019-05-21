@@ -1,6 +1,9 @@
 package main.src.utils.test.db;
 
 import main.src.bean.WordBean;
+import main.src.common.Container;
+import main.src.services.main.InsertRecordBO;
+import main.src.utils.main.db.DatabaseInsertTool;
 import main.src.utils.main.db.DatabaseQueryTool;
 import main.src.utils.main.db.DatabaseUpdateTool;
 import org.junit.jupiter.api.Test;
@@ -32,5 +35,17 @@ public class DatabaseToolsTest {
 			list.add(b);
 		}
 		DatabaseUpdateTool.update(list);
+	}
+
+	@Test
+	void test3(){
+		String startTime = InsertRecordBO.getCurrentTime();
+		InsertRecordBO.getRecordInstance().setStartTime(startTime);
+		String endTime = InsertRecordBO.getCurrentTime();
+		InsertRecordBO.getRecordInstance().setEndTime(endTime);
+		InsertRecordBO.getRecordInstance().setTestWordCount(1);
+		ArrayList<Object> recordList = new ArrayList<>();
+		recordList.add(InsertRecordBO.getRecordInstance());
+		DatabaseInsertTool.insert(recordList);
 	}
 }

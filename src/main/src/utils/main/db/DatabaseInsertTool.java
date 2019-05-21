@@ -58,7 +58,7 @@ public class DatabaseInsertTool {
 		list.forEach(r->{
 			RecordBean rd = (RecordBean)r;
 			s.append("(\'").append(rd.getStartTime()).append("\',\'").append(rd.getEndTime())
-					.append("\',\'").append(rd.getTestWordCount()).append("\',\'")
+					.append("\',").append(rd.getTestWordCount()).append(",\'")
 					.append(Semaphore.getCurrentUser()).append("\'),");
 		});
 		return s.replace(s.length()-1,s.length(),";").toString();
