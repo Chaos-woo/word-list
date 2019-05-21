@@ -7,4 +7,5 @@ public interface MainPanelCommand {
 	void setAudioStorePath(String path);
 	void executeEnToZhModel(int n);
 	void bulkInsertWord();
+	void neverReadWordsModel();
 }

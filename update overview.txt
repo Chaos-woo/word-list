@@ -1,4 +1,10 @@
-Current version: v0.5
+Current version: v0.6
+
+2019/5/21 -v0.6
+1.add a "explain word that you never select words" model(maybe it is unsteady)
+	1a.I think that if I read more and more words, all words in database are selected, this function is useful.
+		So, I want to set a parameter to control it to get a word list including selected counts under this parameter.
+2.modify main panel display
 
 2019/5/21 -v0.5
 1.add "insert record" function about using explaining English
@@ -18,7 +24,8 @@ Current version: v0.5
 6.add my word list to "wordlist\src\main\resource\words\"
 7.add creating table statement in resource\db\table.txt
 8.now "record table" can not use(can not write down user using record)
-9.now word system can't use same model twice(maybe that it is semaphore setting problem), next version maybe it fixed
+9.now word system can't use same model twice(maybe that it is semaphore setting problem), 
+	next version maybe it fixed
 
 2019/5/17 -v0.2
 1.fix bug that controller's UI always circulating

@@ -7,6 +7,7 @@ public class ConstantString {
 	public static final String QUIT = "\'\\q\' to quit system";
 	public static final String CLEAR = "\'\\c\' to clear console";
 	public static final String E2C = "\'\\e2c -n\' to en2zhModel";
+	public static final String NE2C = "\'\\ne2c -n\' to nen2zhModel";
 	public static final String MEMORY = "\'\\m -n\' to read word list";
 	public static final String INSERT = "\'\\i\' to insert new word";
 	public static final String BULK_INSERT = "\'\\im\' to insert mass word";

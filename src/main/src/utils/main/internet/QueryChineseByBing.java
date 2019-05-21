@@ -25,6 +25,8 @@ public class QueryChineseByBing implements Runnable {
 	private static final String regexChinese = "class=\"def\"><span>.*?</";
 	private static final String regexPronunciation = "英\\[.*?，";
 
+	QueryChineseByBing(){}
+
 	public QueryChineseByBing(int n){
 		int maxCount = DatabaseOperateDAO.getCountOfWords();
 		n = Math.min(n,maxCount);

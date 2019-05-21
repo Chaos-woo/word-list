@@ -9,6 +9,7 @@ import main.src.common.ExecutePoolServ;
 import main.src.common.Semaphore;
 import main.src.services.main.*;
 import main.src.utils.main.internet.QueryChineseByBing;
+import main.src.utils.main.internet.QueryNeverSelectedWords;
 import main.src.utils.main.system.SystemTools;
 
 import java.util.Scanner;
@@ -26,11 +27,7 @@ public class MainPanelImpl implements MainPanelCommand,BasicCommand,GetCommand {
 
 	@Override
 	public void repeatWord(int n) {
-		Container.clearWordList();
-		Container.clearCatch();
-		Semaphore.setReadWordModel(true);
-		Semaphore.setRunning(true);
-		Semaphore.setSearchByInternetFlag(true);
+		setSemaphore(true,true,true);
 		QueryChineseByBing qcb = new QueryChineseByBing(n);
 		ExecutePoolServ.getExecutorService().execute(qcb);
 		RepeatWordBO repeatWordBO = new RepeatWordBO();
@@ -53,11 +50,7 @@ public class MainPanelImpl implements MainPanelCommand,BasicCommand,GetCommand {
 
 	@Override
 	public void executeEnToZhModel(int n) {
-		Container.clearWordList();
-		Container.clearCatch();
-		Semaphore.setReadWordModel(false);
-		Semaphore.setRunning(true);
-		Semaphore.setSearchByInternetFlag(true);
+		setSemaphore(false,true,true);
 		QueryChineseByBing qcb = new QueryChineseByBing(n);
 		ExecutePoolServ.getExecutorService().execute(qcb);
 		ExplainWordsModel explainWordsModel = new ExplainWordsModel();
@@ -71,11 +64,20 @@ public class MainPanelImpl implements MainPanelCommand,BasicCommand,GetCommand {
 	}
 
 	@Override
+	public void neverReadWordsModel() {
+		setSemaphore(false,true,true);
+		QueryNeverSelectedWords qns = new QueryNeverSelectedWords();
+		ExecutePoolServ.getExecutorService().execute(qns);
+		ExplainWordsModel explainWordsModel = new ExplainWordsModel();
+		explainWordsModel.getCommand();
+	}
+
+	@Override
 	public void help() {
 		SystemTools.printWelcomePanel(ConstantString.TITLE,new String[]{
-				ConstantString.E2C,ConstantString.MEMORY,
-				ConstantString.INSERT,ConstantString.BULK_INSERT,
-				ConstantString.INFO,
+				ConstantString.E2C,ConstantString.NE2C,
+				ConstantString.MEMORY,ConstantString.INSERT,
+				ConstantString.BULK_INSERT,ConstantString.INFO,
 				ConstantString.SET_PATH,ConstantString.CLEAR,
 				ConstantString.QUIT,ConstantString.HELP
 		});
@@ -101,8 +103,8 @@ public class MainPanelImpl implements MainPanelCommand,BasicCommand,GetCommand {
 					getUserInfo();
 				}else if("\\im".equals(cmd)){
 					bulkInsertWord();
-				} else {
-					//don't do anything
+				} else if("\\ne2c".equals(cmd)){
+					neverReadWordsModel();
 				}
 			}else {
 				int param;
@@ -119,5 +121,13 @@ public class MainPanelImpl implements MainPanelCommand,BasicCommand,GetCommand {
 				}
 			}
 		}
+	}
+
+	private void setSemaphore(boolean readWordModel, boolean running, boolean searchByInternetFlag){
+		Container.clearWordList();
+		Container.clearCatch();
+		Semaphore.setReadWordModel(readWordModel);
+		Semaphore.setRunning(running);
+		Semaphore.setSearchByInternetFlag(searchByInternetFlag);
 	}
 }

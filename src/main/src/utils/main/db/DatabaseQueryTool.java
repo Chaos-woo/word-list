@@ -59,4 +59,9 @@ public class DatabaseQueryTool {
 		}
 		return s.toString();
 	}
+
+	public static ResultSet queryNeverSelectedWord(){
+		String sql = "SELECT * FROM wordlist WHERE selected_count<2";
+		return DatabaseOperateDAO.query(sql);
+	}
 }
