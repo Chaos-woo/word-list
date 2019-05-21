@@ -3,6 +3,7 @@ package main.src.utils.main.system;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SystemTools {
 	/**
@@ -50,8 +51,9 @@ public class SystemTools {
 	 */
 	public static ArrayList<Integer> randomNumberList(int count, int max){
 		ArrayList<Integer> numList = new ArrayList<>();
+		Random random = new Random(); //no parameter is that system current time as seed
 		for(int i=0;i<count;){
-			int randomNum = (int)(Math.random()*max)+1;
+			int randomNum = random.nextInt(max)+1;
 			if(!numList.contains(randomNum)){
 				numList.add(randomNum);
 				i++;
