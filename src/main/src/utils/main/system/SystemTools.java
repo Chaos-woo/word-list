@@ -51,7 +51,7 @@ public class SystemTools {
 	 */
 	public static ArrayList<Integer> randomNumberList(int count, int max){
 		ArrayList<Integer> numList = new ArrayList<>();
-		Random random = new Random(); //no parameter is that system current time as seed
+		Random random = new Random(System.currentTimeMillis()+(long)(System.currentTimeMillis()*Math.random()+1));
 		for(int i=0;i<count;){
 			int randomNum = random.nextInt(max)+1;
 			if(!numList.contains(randomNum)){

@@ -51,7 +51,7 @@ public class InsertWordsBO implements BasicCommand,OperationalPanelCommand,GetCo
 						backToMain();
 					}else {
 						if(DatabaseInsertTool.insert(wordList)){
-							System.out.println("Please wait ...");
+							System.out.println("Please wait ... Now you had back to main panel.");
 							backToMain();
 						}else {
 							System.out.println("Saving is failed. Please save again");

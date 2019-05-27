@@ -24,13 +24,14 @@ public class QueryChineseByBing implements Runnable {
 	private static final String url = "http://cn.bing.com/dict/search?q=";
 	private static final String regexChinese = "class=\"def\"><span>.*?</";
 	private static final String regexPronunciation = "英\\[.*?，";
+	private static int count;
 
 	QueryChineseByBing(){}
 
 	public QueryChineseByBing(int n){
 		int maxCount = DatabaseOperateDAO.getCountOfWords();
-		n = Math.min(n,maxCount);
-		ArrayList<Integer> randomList = SystemTools.randomNumberList(n,maxCount);
+		setCount(Math.min(n,maxCount));
+		ArrayList<Integer> randomList = SystemTools.randomNumberList(count,maxCount);
 		ArrayList<Object> list = new ArrayList<>(randomList);
 		ResultSet rs = DatabaseQueryTool.query(list);
 		try{
@@ -53,10 +54,10 @@ public class QueryChineseByBing implements Runnable {
 			if(Container.oldWordList.size()<=0){
 				Semaphore.setRunning(false);
 			}
-			while (Container.wordCatch.size()<20 && Semaphore.isSearchByInternetFlag()
+			while (Container.wordCatch.size()<count && Semaphore.isSearchByInternetFlag()
 					&& Container.oldWordList.size()>0){
 				word = (WordBean) Container.oldWordList.remove(0);
-				if((word.getChinese()!=null) && (word.getSound()!=null)){
+				if((word.getSound()!=null) && (word.getChinese()!=null)){
 					getHttpContext(word.getEnglish());
 					downloadPronunciation();
 					Container.wordCatch.add(word);
@@ -133,5 +134,9 @@ public class QueryChineseByBing implements Runnable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void setCount(int n){
+		count = n;
 	}
 }

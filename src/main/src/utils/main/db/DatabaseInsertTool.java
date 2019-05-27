@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class DatabaseInsertTool {
 	public static boolean insert(ArrayList<Object> list){
-		StringBuilder sql = new StringBuilder("INSERT INTO ");
+		StringBuilder sql = new StringBuilder("INSERT IGNORE INTO ");
 		//通过反射获取表名
 		Class c = list.get(0).getClass();
 		if(!c.isAnnotationPresent(Table.class)){

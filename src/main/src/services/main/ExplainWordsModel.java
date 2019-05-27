@@ -60,6 +60,12 @@ public class ExplainWordsModel implements BasicCommand ,GetCommand,OperationalPa
 			}else {
 				if (cmds[0].trim().length()==0) {
 					System.out.println(w.getChinese());
+					System.out.println("Memory it for 4 seconds");
+					try {
+						Thread.sleep(4000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					getWordFromCatchList();
 				} else if (cmds.length == 1) {
 					if ("\\main".equals(cmds[0])) {
@@ -98,8 +104,7 @@ public class ExplainWordsModel implements BasicCommand ,GetCommand,OperationalPa
 			Container.newWordList.add(w);
 			ExecutePoolServ.getExecutorService().execute(new PlayAudio(w.getEnglish()));
 			Semaphore.setSearchByInternetFlag(true);
-		}
-		if(Container.wordCatch.size()<=0){
+		}else if(Container.wordCatch.size()<=0){
 			System.out.println();
 			System.out.println("This is ending. Please use \\'\\main\' to save and back main panel.");
 		}

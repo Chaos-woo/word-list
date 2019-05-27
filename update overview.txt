@@ -1,4 +1,9 @@
-Current version: v0.6
+Current version: v0.7
+
+2019/5/27 -v0.7
+1.fix bug that process prepares for word list
+2.modify "insert word" syntax so that database can ignore much of the repetition of words
+3.add word lists
 
 2019/5/21 -v0.6
 1.add a "explain word that you never select words" model(maybe it is unsteady)

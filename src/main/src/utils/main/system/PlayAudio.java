@@ -17,8 +17,12 @@ public class PlayAudio implements Runnable{
 	@Override
 	public void run() {
 		try {
+			File file = new File(Semaphore.getAudioPath()+"/"+word+".mp3");
+			if(!file.exists()){
+				return;
+			}
 			BufferedInputStream bis = new BufferedInputStream(
-					new FileInputStream(new File(Semaphore.getAudioPath()+"/"+word+".mp3")));
+					new FileInputStream(file));
 			Player player = new Player(bis);
 			player.play();
 		} catch (Exception e) {
